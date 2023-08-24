@@ -1,0 +1,108 @@
+diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
+index f752144..725918a 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
++++ b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
+@@ -18,6 +18,7 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
+ 
+   private final ReactApplicationContext reactContext;
+   private ReceiveSharingIntentHelper receiveSharingIntentHelper;
++  private Intent oldIntent;
+ 
+   public ReceiveSharingIntentModule(ReactApplicationContext reactContext) {
+     super(reactContext);
+@@ -30,6 +31,7 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
+   protected void onNewIntent(Intent intent) {
+     Activity mActivity = getCurrentActivity();
+     if(mActivity == null) { return; }
++    oldIntent = mActivity.getIntent();
+     mActivity.setIntent(intent);
+   }
+ 
+@@ -40,7 +42,9 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
+     if(mActivity == null) { return; }
+     Intent intent = mActivity.getIntent();
+     receiveSharingIntentHelper.sendFileNames(reactContext, intent, promise);
+-    mActivity.setIntent(null);
++    if (oldIntent != null) {
++      mActivity.setIntent(oldIntent);
++    }  
+   }
+ 
+   @ReactMethod
+diff --git a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
+index 735c191..91dab4b 100644
+--- a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
++++ b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
+@@ -33,7 +33,7 @@ class ReceiveSharingIntentModule implements IReceiveSharingIntent {
+     }
+ 
+     clearReceivedFiles(){
+-        this.isClear = true;
++        ReceiveSharingIntent.clearFileNames();
+     }
+ 
+     
+diff --git a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig
+new file mode 100644
+index 0000000..735c191
+--- /dev/null
++++ b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig
+@@ -0,0 +1,57 @@
++import type { IReceiveSharingIntent, IUtils } from "./ReceiveSharingIntent.interfaces";
++import { Platform, Linking, AppState, NativeModules } from "react-native";
++import  Utils from "./utils";
++
++const { ReceiveSharingIntent } = NativeModules;
++
++class ReceiveSharingIntentModule implements IReceiveSharingIntent {
++    private isIos: boolean = Platform.OS === "ios";
++    private utils: IUtils = new Utils();
++    private isClear: boolean = false;
++
++    getReceivedFiles(handler: Function, errorHandler: Function, protocol: string = "ShareMedia"){
++        if(this.isIos){
++            Linking.getInitialURL().then((res:any) => {
++                if (res && res.startsWith(`${protocol}://dataUrl`) && !this.isClear) {
++                    this.getFileNames(handler, errorHandler, res);
++                }
++            }).catch(() => { });
++            Linking.addEventListener("url", (res:any) => {
++                const url = res ? res.url : "";
++                if (url.startsWith(`${protocol}://dataUrl`) && !this.isClear) {
++                    this.getFileNames(handler,errorHandler, res.url);
++                }
++            });
++        }else{
++            AppState.addEventListener('change', (status: string) => {
++                if (status === 'active' && !this.isClear) {
++                    this.getFileNames(handler,errorHandler, "");
++                }
++              });
++           if(!this.isClear) this.getFileNames(handler,errorHandler, "");
++        }
++    }
++
++    clearReceivedFiles(){
++        this.isClear = true;
++    }
++
++    
++   protected getFileNames(handler: Function, errorHandler: Function, url: string){
++        if(this.isIos){
++            ReceiveSharingIntent.getFileNames(url).then((data: any)=>{         
++                 let files = this.utils.sortData(data);
++                 handler(files);
++            }).catch((e:any)=>errorHandler(e));
++        }else{
++            ReceiveSharingIntent.getFileNames().then((fileObject: any) => {
++                let files = Object.keys(fileObject).map((k) => fileObject[k])
++                handler(files);
++            }).catch((e:any)=>errorHandler(e));
++        }
++    }
++
++    
++}
++
++export default ReceiveSharingIntentModule;
+\ No newline at end of file
