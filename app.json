@@ -14,7 +14,17 @@
     },
     "assetBundlePatterns": ["**/*"],
     "plugins": [
-      "expo-config-plugin-ios-share-extension",
+      [
+        "expo-config-plugin-ios-share-extension",
+        {
+          "activationRules": {
+            "NSExtensionActivationSupportsText": true,
+            "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
+            "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
+            "NSExtensionActivationSupportsImageWithMaxCount": 1
+          }
+        }
+      ],
       [
         "expo-build-properties",
         {

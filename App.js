@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-import ReceiveSharingIntent from "react-native-receive-sharing-intent";
 import useShareIntent from "./hooks/useShareIntent";
 
 export default function App() {
@@ -10,7 +9,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Share intent value: {shareIntent || "not found"}</Text>
+      {!shareIntent && <Text>No Share intent detected</Text>}
+      {!!shareIntent && <Text>Share intent value:</Text>}
+      {!!shareIntent && !shareIntent.uri && <Text>{shareIntent}</Text>}
+      {shareIntent?.uri && <Image source={shareIntent} style={styles.image} />}
       {!!shareIntent && <Button onPress={resetShareIntent} title="Reset" />}
       <StatusBar style="auto" />
     </View>
@@ -23,5 +25,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    gap: 20,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
   },
 });
