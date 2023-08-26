@@ -34,4 +34,55 @@ Thanks to `expo-config-plugin-ios-share-extension` package we do not need to do 
 
 ### Android Tricks
 
-This other examples
+For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+
+```json
+"scripts": {
+  "prebuild": "expo prebuild --no-install && patch -s -p0 < plugins/share-extension-patch-android.diff"
+}
+```
+
+we also use some plugins for updating the manifest (see app.json).
+
+plugins
+
+```json
+    "plugins": [
+      "expo-config-plugin-ios-share-extension",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "1.6.10",
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          }
+        }
+      ],
+      [
+        "./plugins/withAndroidMainActivityAttributes",
+        {
+          "android:windowSoftInputMode": "adjustResize"
+        }
+      ]
+    ]
+```
+
+manifest
+
+```json
+    "android": {
+      "intentFilters": [
+        {
+          "action": "SEND",
+          "category": "DEFAULT",
+          "data": [
+            {
+              "mimeType": "text/*"
+            }
+          ]
+        }
+      ]
+    },
+```
