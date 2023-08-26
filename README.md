@@ -2,13 +2,13 @@
 
 This project demonstrate a fonctionnal share intent in a Expo (React Native) project. It allows to use an expo auto configuration for react-native-receive-sharing-intent package.
 
-This demo works with old **Expo SDK 48** and is for Android and iOS, using url and text sharing.
+This demo works with old **Expo SDK 49** and is for iOS only, using url and text sharing.
 
 More Demo :
 
-- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
-- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
-- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (iOS only)
+- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (Android & iOS, compatible iOS 12.4)
+- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47) (Android & iOS)
+- Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (Android & iOS)
 
 ## Getting Started
 
@@ -16,7 +16,6 @@ More Demo :
 yarn install
 yarn prebuild
 yarn ios
-yarn android
 ```
 
 ## How
@@ -33,6 +32,12 @@ we are using `patch-package` to auto patch, see "patches" directory for details.
 Thanks to `expo-config-plugin-ios-share-extension` package we do not need to do manual configuration as described is the original [doc](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/ios)
 
 ### Android Tricks
+
+:warning: not working yet for Expo 49
+
+```log
+Reason: Task ':reactnativereceivesharingintent:packageDebugResources' uses this output of task ':react-native-receive-sharing-intent:compileDebugRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed.
+```
 
 For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
 
