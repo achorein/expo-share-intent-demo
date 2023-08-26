@@ -7,19 +7,26 @@
     "clean": "expo prebuild --clean",
     "prebuild": "expo prebuild --no-install",
     "ios": "expo run:ios",
-    "postinstall": "patch-package",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "test": "CI=1 expo install --check",
+    "test:fix": "expo install --fix",
+    "doctor": "npx expo-doctor",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "expo": "~49.0.8",
     "expo-config-plugin-ios-share-extension": "^0.0.4",
+    "expo-constants": "~14.4.2",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
     "react-native": "0.72.4",
-    "react-native-receive-sharing-intent": "^2.0.0",
-    "expo-splash-screen": "~0.20.5"
+    "react-native-receive-sharing-intent": "^2.0.0"
+  },
+  "resolutions": {
+    "@expo/config-plugins": "~7.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
