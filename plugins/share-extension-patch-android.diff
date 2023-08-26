@@ -1,6 +1,6 @@
 --- android/app/build.gradle	2022-10-29 11:38:29.000000000 +0200
 +++ share-extension/android/app/build.gradle	2022-10-29 11:12:16.000000000 +0200
-@@ -339,6 +339,8 @@
+@@ -232,6 +232,8 @@
      } else {
          implementation jscFlavor
      }
@@ -11,10 +11,9 @@
  if (isNewArchitectureEnabled()) {
 --- android/settings.gradle	2022-10-29 11:38:29.000000000 +0200
 +++ share-extension/android/settings.gradle	2022-10-29 11:12:16.000000000 +0200
-@@ -15,3 +15,6 @@
-   include(":ReactAndroid:hermes-engine")
-   project(":ReactAndroid:hermes-engine").projectDir = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), "../ReactAndroid/hermes-engine");
- }
+@@ -9,2 +9,5 @@
+ include ':app'
+ includeBuild(new File(["node", "--print", "require.resolve('react-native-gradle-plugin/package.json')"].execute(null, rootDir).text.trim()).getParentFile())
 +
 +include ':reactnativereceivesharingintent'
 +project(':reactnativereceivesharingintent').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-receive-sharing-intent/android')
@@ -28,9 +27,8 @@
  
  import com.facebook.react.ReactActivity;
  import com.facebook.react.ReactActivityDelegate;
-@@ -80,4 +81,10 @@
-       return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-     }
+@@ -67,3 +68,9 @@
+     super.invokeDefaultOnBackPressed();
    }
 +
 +  @Override
