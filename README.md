@@ -6,9 +6,9 @@ This demo works with old **Expo SDK 48** and is for Android and iOS, using url a
 
 More Demo :
 
-- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
-- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
-- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (only iOS for now)
+- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (Android & iOS, compatible iOS 12.4)
+- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47) (Android & iOS)
+- Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (Android & iOS)
 
 ## Getting Started
 
@@ -34,12 +34,4 @@ Thanks to `expo-config-plugin-ios-share-extension` package we do not need to do 
 
 ### Android Tricks
 
-For Android build we add a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
-
-```json
-"scripts": {
-  "prebuild": "expo prebuild --no-install && patch -s -p0 < plugins/share-extension-patch-android.diff"
-}
-```
-
-we also use some plugins for updating the manifest (see app.json).
+This other examples
