@@ -1,0 +1,39 @@
+--- android/app/build.gradle	2022-10-29 11:38:29.000000000 +0200
++++ share-extension/android/app/build.gradle	2022-10-29 11:12:16.000000000 +0200
+@@ -232,6 +232,8 @@
+     } else {
+         implementation jscFlavor
+     }
++
++    implementation project(':reactnativereceivesharingintent')
+ }
+ 
+ if (isNewArchitectureEnabled()) {
+--- android/settings.gradle	2022-10-29 11:38:29.000000000 +0200
++++ share-extension/android/settings.gradle	2022-10-29 11:12:16.000000000 +0200
+@@ -9,2 +9,5 @@
+ include ':app'
+ includeBuild(new File(["node", "--print", "require.resolve('react-native-gradle-plugin/package.json')"].execute(null, rootDir).text.trim()).getParentFile())
++
++include ':reactnativereceivesharingintent'
++project(':reactnativereceivesharingintent').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-receive-sharing-intent/android')
+--- android/app/src/main/java/com/example/exposhareintentdemo/MainActivity.java	2022-10-29 11:54:18.000000000 +0200
++++ share-extension/android/app/src/main/java/com/example/exposhareintentdemo/MainActivity.java	2022-10-29 11:12:16.000000000 +0200
+@@ -2,6 +2,7 @@
+ 
+ import android.os.Build;
+ import android.os.Bundle;
++import android.content.Intent;
+ 
+ import com.facebook.react.ReactActivity;
+ import com.facebook.react.ReactActivityDelegate;
+@@ -67,3 +68,9 @@
+     super.invokeDefaultOnBackPressed();
+   }
++
++  @Override
++  public void onNewIntent(Intent intent) {
++    super.onNewIntent(intent);
++    setIntent(intent);
++  }
+ }
