@@ -36,3 +36,6 @@ yarn-error.*
 
 /android
 /ios
+
+index.js
+metro.config.js
