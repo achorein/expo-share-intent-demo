@@ -8,7 +8,7 @@ More Demo :
 
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
-- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (iOS only)
+- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
 
 ## Getting Started
 
@@ -102,6 +102,15 @@ we also use some plugins for updating the manifest (see app.json).
           "data": [
             {
               "mimeType": "text/*"
+            }
+          ]
+        },
+        {
+          "action": "SEND",
+          "category": "DEFAULT",
+          "data": [
+            {
+              "mimeType": "image/*"
             }
           ]
         }
