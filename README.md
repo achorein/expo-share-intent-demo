@@ -56,20 +56,11 @@ Simply choose content types you need :
 
 ### Android Tricks
 
-For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instructions](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
-
-```json
-"scripts": {
-  "prebuild": "expo prebuild --no-install && patch -s -p0 < plugins/share-extension-patch-android.diff"
-}
-```
-
-we also use some plugins for updating the manifest (see app.json).
-
-- Additionnal plugins configuration
+For Android build a config plugin (see `plugins/withAndroidShareExtension.js`) has been added to automate the [doc instructions](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/), with some more configuration needed as described below (Currently working on a single plugin to simplify this configuration) :
 
 ```json
     "plugins": [
+      "./plugins/withAndroidShareExtension",
       "expo-config-plugin-ios-share-extension",
       [
         "expo-build-properties",
@@ -82,15 +73,10 @@ we also use some plugins for updating the manifest (see app.json).
       [
         "./plugins/withAndroidMainActivityAttributes",
         {
-          "android:windowSoftInputMode": "adjustResize"
+          "android:launchMode": "singleTask"
         }
       ]
     ]
-```
-
-- Android specific configuration in app.json
-
-```json
     "android": {
       "intentFilters": [
         {
