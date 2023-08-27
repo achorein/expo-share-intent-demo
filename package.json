@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",
-    "clean": "expo prebuild --clean && patch -s -p0 < plugins/share-extension-patch-android.diff",
-    "prebuild": "expo prebuild --no-install && patch -s -p0 < plugins/share-extension-patch-android.diff",
+    "clean": "expo prebuild --clean",
+    "prebuild": "expo prebuild --no-install",
     "ios": "expo run:ios",
     "android": "expo run:android",
     "test": "CI=1 expo install --check",
