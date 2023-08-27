@@ -2,13 +2,13 @@
 
 This project demonstrate a fonctionnal share intent in a Expo (React Native) project. It allows to use an expo auto configuration for react-native-receive-sharing-intent package.
 
-This demo works with old **Expo SDK 48** and is for Android and iOS, using url and text sharing.
+This demo works with **Expo SDK 48** and is for Android and iOS, using url and text sharing.
 
 More Demo :
 
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
-- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (iOS only)
+- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
 
 ## Getting Started
 
@@ -76,9 +76,6 @@ we also use some plugins for updating the manifest (see app.json).
         {
           "android": {
             "kotlinVersion": "1.6.10",
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "buildToolsVersion": "33.0.0"
           }
         }
       ],
@@ -102,6 +99,15 @@ we also use some plugins for updating the manifest (see app.json).
           "data": [
             {
               "mimeType": "text/*"
+            }
+          ]
+        },
+        {
+          "action": "SEND",
+          "category": "DEFAULT",
+          "data": [
+            {
+              "mimeType": "image/*"
             }
           ]
         }
