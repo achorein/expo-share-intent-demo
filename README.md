@@ -56,12 +56,6 @@ Simply choose content types you need :
 
 ### Android Tricks
 
-:warning: not working yet for Expo 49
-
-```log
-Reason: Task ':reactnativereceivesharingintent:packageDebugResources' uses this output of task ':react-native-receive-sharing-intent:compileDebugRenderscript' without declaring an explicit or implicit dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed.
-```
-
 For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
 
 ```json
