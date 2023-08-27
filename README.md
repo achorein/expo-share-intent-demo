@@ -56,7 +56,7 @@ Simply choose content types you need :
 
 ### Android Tricks
 
-For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instructions](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
 
 ```json
 "scripts": {
@@ -66,7 +66,7 @@ For Android build we call a patch after the expo prebuild command execution in t
 
 we also use some plugins for updating the manifest (see app.json).
 
-plugins
+- Additionnal plugins configuration
 
 ```json
     "plugins": [
@@ -91,7 +91,7 @@ plugins
     ]
 ```
 
-manifest
+- Android specific configuration in app.json
 
 ```json
     "android": {
@@ -108,3 +108,9 @@ manifest
       ]
     },
 ```
+
+## Support
+
+Like my work ? want to say thanks, you can add a star and buy me a coffee to give me strength
+
+<a href="https://www.buymeacoffee.com/achorein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
