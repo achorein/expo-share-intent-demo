@@ -2,13 +2,13 @@
 
 This project demonstrate a fonctionnal share intent in a Expo (React Native) project. It allows to use an expo auto configuration for react-native-receive-sharing-intent package.
 
-This demo works with old **Expo SDK 49** and is for iOS only, using url and text sharing.
+This demo works with **Expo SDK 49** on both Android and iOS, using url and text sharing
 
 More Demo :
 
-- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (Android & iOS, compatible iOS 12.4)
-- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47) (Android & iOS)
-- Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (Android & iOS)
+- Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
+- Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
+- Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
 
 ## Getting Started
 
@@ -16,6 +16,7 @@ More Demo :
 yarn install
 yarn prebuild
 yarn ios
+yarn android
 ```
 
 ## How
@@ -71,32 +72,21 @@ For Android build we call a patch after the expo prebuild command execution in t
 
 we also use some plugins for updating the manifest (see app.json).
 
-plugins
+- Additionnal plugins configuration
 
 ```json
     "plugins": [
       "expo-config-plugin-ios-share-extension",
       [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.6.10",
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "buildToolsVersion": "33.0.0"
-          }
-        }
-      ],
-      [
         "./plugins/withAndroidMainActivityAttributes",
         {
-          "android:windowSoftInputMode": "adjustResize"
+          "android:launchMode": "singleTask"
         }
       ]
     ]
 ```
 
-manifest
+- Android specific configuration in app.json
 
 ```json
     "android": {
@@ -109,7 +99,22 @@ manifest
               "mimeType": "text/*"
             }
           ]
+        },
+        {
+          "action": "SEND",
+          "category": "DEFAULT",
+          "data": [
+            {
+              "mimeType": "image/*"
+            }
+          ]
         }
       ]
     },
 ```
+
+## Support
+
+Like my work ? want to say thanks, you can add a star and buy me a coffee to give me strength
+
+<a href="https://www.buymeacoffee.com/achorein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>

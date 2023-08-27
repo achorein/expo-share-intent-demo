@@ -26,17 +26,6 @@
         }
       ],
       [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.6.10",
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
-            "buildToolsVersion": "33.0.0"
-          }
-        }
-      ],
-      [
         "./plugins/withAndroidMainActivityAttributes",
         {
           "android:windowSoftInputMode": "adjustResize"

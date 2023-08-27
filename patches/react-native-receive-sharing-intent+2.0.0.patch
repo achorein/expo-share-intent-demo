@@ -1,3 +1,67 @@
+diff --git a/node_modules/react-native-receive-sharing-intent/android/build.gradle b/node_modules/react-native-receive-sharing-intent/android/build.gradle
+index 02cc8f2..2726157 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/build.gradle
++++ b/node_modules/react-native-receive-sharing-intent/android/build.gradle
+@@ -8,7 +8,7 @@ buildscript {
+   }
+ 
+   dependencies {
+-    classpath 'com.android.tools.build:gradle:3.2.1'
++    classpath 'com.android.tools.build:gradle:7.4.1'
+     // noinspection DifferentKotlinGradleVersion
+     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+   }
+@@ -26,6 +26,7 @@ def getExtOrIntegerDefault(name) {
+ }
+ 
+ android {
++  namespace "com.reactnativereceivesharingintent"
+   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+   buildToolsVersion getExtOrDefault('buildToolsVersion')
+   defaultConfig {
+@@ -33,7 +34,6 @@ android {
+     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+     versionCode 1
+     versionName "1.0"
+-    
+   }
+   
+   buildTypes {
+@@ -45,8 +45,8 @@ android {
+     disable 'GradleCompatible'
+   }
+   compileOptions {
+-    sourceCompatibility JavaVersion.VERSION_1_8
+-    targetCompatibility JavaVersion.VERSION_1_8
++    sourceCompatibility JavaVersion.VERSION_17
++    targetCompatibility JavaVersion.VERSION_17
+   }
+ }
+ 
+diff --git a/node_modules/react-native-receive-sharing-intent/android/gradle.properties b/node_modules/react-native-receive-sharing-intent/android/gradle.properties
+index 9303aa4..2ff63dd 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/gradle.properties
++++ b/node_modules/react-native-receive-sharing-intent/android/gradle.properties
+@@ -1,4 +1,5 @@
+-ReceiveSharingIntent_kotlinVersion=1.3.50
+-ReceiveSharingIntent_compileSdkVersion=29
+-ReceiveSharingIntent_buildToolsVersion=29.0.2
+-ReceiveSharingIntent_targetSdkVersion=29
++ReceiveSharingIntent_kotlinVersion=1.6.10
++ReceiveSharingIntent_compileSdkVersion=33
++ReceiveSharingIntent_buildToolsVersion=33.0.1
++ReceiveSharingIntent_targetSdkVersion=33
++android.useAndroidX=true
+diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml b/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml
+index d19929a..0a0938a 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml
++++ b/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml
+@@ -1,4 +1,3 @@
+-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-          package="com.reactnativereceivesharingintent">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+ </manifest>
 diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
 index f752144..725918a 100644
 --- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
@@ -42,67 +106,3 @@ index 735c191..91dab4b 100644
      }
  
      
-diff --git a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig
-new file mode 100644
-index 0000000..735c191
---- /dev/null
-+++ b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts.orig
-@@ -0,0 +1,57 @@
-+import type { IReceiveSharingIntent, IUtils } from "./ReceiveSharingIntent.interfaces";
-+import { Platform, Linking, AppState, NativeModules } from "react-native";
-+import  Utils from "./utils";
-+
-+const { ReceiveSharingIntent } = NativeModules;
-+
-+class ReceiveSharingIntentModule implements IReceiveSharingIntent {
-+    private isIos: boolean = Platform.OS === "ios";
-+    private utils: IUtils = new Utils();
-+    private isClear: boolean = false;
-+
-+    getReceivedFiles(handler: Function, errorHandler: Function, protocol: string = "ShareMedia"){
-+        if(this.isIos){
-+            Linking.getInitialURL().then((res:any) => {
-+                if (res && res.startsWith(`${protocol}://dataUrl`) && !this.isClear) {
-+                    this.getFileNames(handler, errorHandler, res);
-+                }
-+            }).catch(() => { });
-+            Linking.addEventListener("url", (res:any) => {
-+                const url = res ? res.url : "";
-+                if (url.startsWith(`${protocol}://dataUrl`) && !this.isClear) {
-+                    this.getFileNames(handler,errorHandler, res.url);
-+                }
-+            });
-+        }else{
-+            AppState.addEventListener('change', (status: string) => {
-+                if (status === 'active' && !this.isClear) {
-+                    this.getFileNames(handler,errorHandler, "");
-+                }
-+              });
-+           if(!this.isClear) this.getFileNames(handler,errorHandler, "");
-+        }
-+    }
-+
-+    clearReceivedFiles(){
-+        this.isClear = true;
-+    }
-+
-+    
-+   protected getFileNames(handler: Function, errorHandler: Function, url: string){
-+        if(this.isIos){
-+            ReceiveSharingIntent.getFileNames(url).then((data: any)=>{         
-+                 let files = this.utils.sortData(data);
-+                 handler(files);
-+            }).catch((e:any)=>errorHandler(e));
-+        }else{
-+            ReceiveSharingIntent.getFileNames().then((fileObject: any) => {
-+                let files = Object.keys(fileObject).map((k) => fileObject[k])
-+                handler(files);
-+            }).catch((e:any)=>errorHandler(e));
-+        }
-+    }
-+
-+    
-+}
-+
-+export default ReceiveSharingIntentModule;
-\ No newline at end of file
