@@ -42,70 +42,46 @@ Simply choose content types you need :
         "expo-config-plugin-ios-share-extension",
         {
           "activationRules": {
-            "NSExtensionActivationSupportsText": true,
             "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
             "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
-            "NSExtensionActivationSupportsImageWithMaxCount": 1
           }
         }
       ],
   ],
 ```
 
+| Option          | Values                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| activationRules | Allow **text** sharing with `"NSExtensionActivationSupportsText": true`<br/>**Url** sharing with `"NSExtensionActivationSupportsWebURLWithMaxCount": 1` and `"NSExtensionActivationSupportsWebPageWithMaxCount": 1`<br/>**Images** sharing with `"NSExtensionActivationSupportsImageWithMaxCount": 1`<br/>_default value_: `{ "NSExtensionActivationSupportsWebURLWithMaxCount": 1, "NSExtensionActivationSupportsWebPageWithMaxCount": 1 }"` |
+
 **WIP**: Corresponding [PR](https://github.com/timedtext/expo-config-plugin-ios-share-extension/pull/11) for expo-config-plugin-ios-share-extension
 
 ### Android Tricks
 
-For Android build we call a patch after the expo prebuild command execution in the `package.json` scripts, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+For Android build a config plugin (see plugins/withAndroidShareExtension) has been added to automate the doc instructions, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+
+#### Content Types
+
+Simply choose content types you need :
 
 ```json
-"scripts": {
-  "prebuild": "expo prebuild --no-install && patch -s -p0 < plugins/share-extension-patch-android.diff"
-}
-```
-
-we also use some plugins for updating the manifest (see app.json).
-
-- Additionnal plugins configuration
-
-```json
-    "plugins": [
-      "expo-config-plugin-ios-share-extension",
+  "plugins": [
       [
-        "./plugins/withAndroidMainActivityAttributes",
+        "./plugins/withAndroidShareExtension",
         {
-          "android:launchMode": "singleTask"
+          "androidIntentFilters": [
+            "text/*",
+            "image/*",
+          ],
         }
-      ]
-    ]
+      ],
+  ],
 ```
 
-- Android specific configuration in app.json
-
-```json
-    "android": {
-      "intentFilters": [
-        {
-          "action": "SEND",
-          "category": "DEFAULT",
-          "data": [
-            {
-              "mimeType": "text/*"
-            }
-          ]
-        },
-        {
-          "action": "SEND",
-          "category": "DEFAULT",
-          "data": [
-            {
-              "mimeType": "image/*"
-            }
-          ]
-        }
-      ]
-    },
-```
+| Option                        | Values                                                                                                   |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+| androidIntentFilters          | array of mime types :`"text/*"` / `"image/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url) |
+| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }"`                                               |
 
 ## Support
 
