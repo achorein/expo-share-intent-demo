@@ -58,7 +58,7 @@ Simply choose content types you need :
 
 ### Android Tricks
 
-For Android build a config plugin (see plugins/withAndroidShareExtension) has been added to automate the doc instructions, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+For Android build a config plugin has been added (see `plugins/withAndroidShareExtension` directory) to automate the doc instructions, this automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
 
 #### Content Types
 
@@ -67,7 +67,7 @@ Simply choose content types you need :
 ```json
   "plugins": [
       [
-        "./plugins/withAndroidShareExtension",
+        "./plugins/withAndroidShareExtension/index",
         {
           "androidIntentFilters": [
             "text/*",

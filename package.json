@@ -16,6 +16,7 @@
     "expo": "^49.0.0",
     "expo-config-plugin-ios-share-extension": "^0.0.4",
     "expo-constants": "~14.4.2",
+    "expo-dev-client": "~2.4.8",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "patch-package": "^8.0.0",

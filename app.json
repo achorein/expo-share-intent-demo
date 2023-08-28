@@ -15,7 +15,7 @@
     "assetBundlePatterns": ["**/*"],
     "plugins": [
       [
-        "./plugins/withAndroidShareExtension",
+        "./plugins/withAndroidShareExtension/index",
         {
           "androidIntentFilters": ["text/*", "image/*"]
         }
