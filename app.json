@@ -16,6 +16,12 @@
     "plugins": [
       "./plugins/withAndroidShareExtension",
       [
+        "./plugins/withAndroidShareExtension/index",
+        {
+          "androidIntentFilters": ["text/*", "image/*"]
+        }
+      ],
+      [
         "expo-config-plugin-ios-share-extension",
         {
           "activationRules": {
@@ -24,20 +30,6 @@
             "NSExtensionActivationSupportsWebPageWithMaxCount": 1,
             "NSExtensionActivationSupportsImageWithMaxCount": 1
           }
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "kotlinVersion": "1.6.10"
-          }
-        }
-      ],
-      [
-        "./plugins/withAndroidMainActivityAttributes",
-        {
-          "android:launchMode": "singleTask"
         }
       ]
     ],
@@ -50,18 +42,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "intentFilters": [
-        {
-          "action": "SEND",
-          "category": "DEFAULT",
-          "data": [
-            {
-              "mimeType": "text/*"
-            }
-          ]
-        }
-      ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

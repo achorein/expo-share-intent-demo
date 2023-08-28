@@ -52,54 +52,38 @@ Simply choose content types you need :
   ],
 ```
 
+| Option          | Values                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| activationRules | Allow **text** sharing with `"NSExtensionActivationSupportsText": true`<br/>**Url** sharing with `"NSExtensionActivationSupportsWebURLWithMaxCount": 1` and `"NSExtensionActivationSupportsWebPageWithMaxCount": 1`<br/>**Images** sharing with `"NSExtensionActivationSupportsImageWithMaxCount": 1`<br/>_default value_: `{ "NSExtensionActivationSupportsWebURLWithMaxCount": 1, "NSExtensionActivationSupportsWebPageWithMaxCount": 1 }"` |
+
 **WIP**: Corresponding [PR](https://github.com/timedtext/expo-config-plugin-ios-share-extension/pull/11) for expo-config-plugin-ios-share-extension
 
 ### Android Tricks
 
-For Android build a config plugin (see `plugins/withAndroidShareExtension.js`) has been added to automate the [doc instructions](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/), with some more configuration needed as described below (Currently working on a single plugin to simplify this configuration) :
+For Android build a config plugin has been added (see `plugins/withAndroidShareExtension` directory) to automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+
+#### Content Types
+
+Simply choose content types you need :
 
 ```json
-    "plugins": [
-      "./plugins/withAndroidShareExtension",
-      "expo-config-plugin-ios-share-extension",
+  "plugins": [
       [
-        "expo-build-properties",
+        "./plugins/withAndroidShareExtension/index",
         {
-          "android": {
-            "kotlinVersion": "1.6.10",
-          }
+          "androidIntentFilters": [
+            "text/*",
+            "image/*",
+          ],
         }
       ],
-      [
-        "./plugins/withAndroidMainActivityAttributes",
-        {
-          "android:launchMode": "singleTask"
-        }
-      ]
-    ]
-    "android": {
-      "intentFilters": [
-        {
-          "action": "SEND",
-          "category": "DEFAULT",
-          "data": [
-            {
-              "mimeType": "text/*"
-            }
-          ]
-        },
-        {
-          "action": "SEND",
-          "category": "DEFAULT",
-          "data": [
-            {
-              "mimeType": "image/*"
-            }
-          ]
-        }
-      ]
-    },
+  ],
 ```
+
+| Option                        | Values                                                                                                   |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+| androidIntentFilters          | array of mime types :`"text/*"` / `"image/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url) |
+| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }"`                                               |
 
 ## Support
 
