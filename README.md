@@ -1,14 +1,22 @@
 # Expo Share Intent Demo
 
-This project demonstrate a fonctionnal share intent in a Expo (React Native) project. It allows to use an expo auto configuration for react-native-receive-sharing-intent package.
+This project demonstrates a functional share intent in an Expo (React Native) project. It allows to use Expo's auto-configuration for the `react-native-receive-sharing-intent` package.
 
-This demo works with **Expo SDK 48** and is for Android and iOS, using url and text sharing.
+This demo works with **Expo SDK 48**. Is compatible with **Android** and **iOS** and support URL, text, images and files sharing.
 
 More Demo :
 
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [How It Works](#how-it-works)
+  - [iOS Configuration](#ios-configuration)
+  - [Android Configuration](#android-configuration)
+- [Support](#support)
 
 ## Getting Started
 
@@ -19,18 +27,18 @@ yarn ios
 yarn android
 ```
 
-## How
+## How It Works
 
-For that we use and patch two projects :
+We're using and tweaking two awesome projects:
 
-- https://github.com/ajith-ab/react-native-receive-sharing-intent
-- https://github.com/timedtext/expo-config-plugin-ios-share-extension
+- [react-native-receive-sharing-intent](https://github.com/ajith-ab/react-native-receive-sharing-intent)
+- [expo-config-plugin-ios-share-extension](https://github.com/timedtext/expo-config-plugin-ios-share-extension)
 
-we are using `patch-package` to auto patch, see "patches" directory for details.
+And to make life easier, we've got patch-package doing the heavy lifting for patching. Check out the "patches" directory for details.
 
 ### iOS Tricks
 
-Thanks to `expo-config-plugin-ios-share-extension` package we do not need to do manual configuration as described is the original [doc](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/ios)
+Thanks to the `expo-config-plugin-ios-share-extension` package, manual configuration, as described in the original [documentation](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/ios), is not needed.
 
 #### Content Types
 
@@ -56,11 +64,11 @@ Simply choose content types you need :
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | activationRules | Allow **text** sharing with `"NSExtensionActivationSupportsText": true`<br/>**Url** sharing with `"NSExtensionActivationSupportsWebURLWithMaxCount": 1` and `"NSExtensionActivationSupportsWebPageWithMaxCount": 1`<br/>**Images** sharing with `"NSExtensionActivationSupportsImageWithMaxCount": 1`<br/>_default value_: `{ "NSExtensionActivationSupportsWebURLWithMaxCount": 1, "NSExtensionActivationSupportsWebPageWithMaxCount": 1 }"` |
 
-**WIP**: Corresponding [PR](https://github.com/timedtext/expo-config-plugin-ios-share-extension/pull/11) for expo-config-plugin-ios-share-extension
+**WIP**: There's a matching [PR](https://github.com/timedtext/expo-config-plugin-ios-share-extension/pull/11) for "expo-config-plugin-ios-share-extension"
 
-### Android Tricks
+### Android Magic
 
-For Android build a config plugin has been added (see `plugins/withAndroidShareExtension` directory) to automate the [doc instruction](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/) :
+For Android, a config plugin has been added (see `plugins/withAndroidShareExtension` directory) to add missing elements and automate the steps from the [documentation](https://ajith-ab.github.io/react-native-receive-sharing-intent/docs/android/).
 
 #### Content Types
 
@@ -80,13 +88,14 @@ Simply choose content types you need :
   ],
 ```
 
-| Option                        | Values                                                                                                   |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| androidIntentFilters          | array of mime types :`"text/*"` / `"image/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url) |
-| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }"`                                               |
+| Option                        | Values                                                                                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                               |
+| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                              |
+| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}"` |
 
 ## Support
 
-Like my work ? want to say thanks, you can add a star and buy me a coffee to give me strength
+Enjoying this project? Wanna show some love? Drop a star and consider buying me a coffee to keep me fueled and motivated
 
 <a href="https://www.buymeacoffee.com/achorein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>

@@ -1,3 +1,8 @@
+/*!
+ * Plugin created for Expo Share Intent Demo (https://github.com/achorein/expo-share-intent-demo)
+ * author: achorein (https://github.com/achorein)
+ * co-author: kayode0x (https://github.com/kayode0x)
+ */
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withAndroidMainActivityExtension = void 0;
