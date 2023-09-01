@@ -1,7 +1,12 @@
+/*!
+ * Plugin created for Expo Share Intent Demo (https://github.com/achorein/expo-share-intent-demo)
+ * author: achorein (https://github.com/achorein)
+ *
+ * inspired by: https://forums.expo.dev/t/how-to-edit-android-manifest-was-build/65663/4
+ */
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withAndroidMainActivityAttributes = void 0;
-// https://forums.expo.dev/t/how-to-edit-android-manifest-was-build/65663/4
 const config_plugins_1 = require("@expo/config-plugins");
 function addAttributesToMainActivity(androidManifest, attributes) {
     const { manifest } = androidManifest;

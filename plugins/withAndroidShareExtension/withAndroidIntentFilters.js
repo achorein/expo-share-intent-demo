@@ -1,3 +1,9 @@
+/*!
+ * Plugin created for Expo Share Intent Demo (https://github.com/achorein/expo-share-intent-demo)
+ * author: achorein (https://github.com/achorein)
+ *
+ * inspired by: https://github.com/expo/expo/blob/main/packages/%40expo/config-plugins/src/android/IntentFilters.ts
+ */
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withAndroidIntentFilters = void 0;
