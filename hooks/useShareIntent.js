@@ -14,8 +14,7 @@ export default function useShareIntent() {
         appState.current === "active" &&
         ["inactive", "background"].includes(nextAppState)
       ) {
-        // If App has come to the background reset old share Intent
-        console.log("app going to background: reset intent");
+        console.log("useShareIntent[to-background] reset intent");
         setShareIntent(null);
       }
 
@@ -25,22 +24,33 @@ export default function useShareIntent() {
       subscription.remove();
     };
   }, []);
+
   useEffect(() => {
-    console.log("useShareIntent mount", Constants.expoConfig.scheme);
+    console.log("useShareIntent[mount]", Constants.expoConfig.scheme);
     ReceiveSharingIntent?.getReceivedFiles(
       (data) => {
-        if (data[0].weblink || data[0].text) {
-          const link = data[0].weblink || data[0].text || "";
-          console.log("share intent navigate", link);
+        const intent = data[0];
+        if (intent.weblink || intent.text) {
+          const link = intent.weblink || intent.text || "";
+          console.log("useShareIntent[text/url]", link);
           setShareIntent(JSON.stringify(link));
-        } else if (data[0].filePath) {
-          setShareIntent({ uri: data[0].filePath });
+        } else if (intent.filePath) {
+          console.log("useShareIntent[file]", {
+            uri: intent.contentUri || intent.filePath,
+            mimeType: intent.mimeType,
+            fileName: intent.fileName,
+          });
+          setShareIntent({
+            uri: intent.contentUri || intent.filePath,
+            mimeType: intent.mimeType,
+            fileName: intent.fileName,
+          });
         } else {
-          console.log("share intent not handled", data);
+          console.log("useShareIntent[mount] share type not handled", data);
         }
       },
       (err) => {
-        console.log("share intent error", err);
+        console.log("useShareIntent[mount] error", err);
       },
       Constants.expoConfig.scheme
     );
