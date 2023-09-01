@@ -10,9 +10,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       {!shareIntent && <Text>No Share intent detected</Text>}
-      {!!shareIntent && <Text>Share intent value:</Text>}
-      {!!shareIntent && !shareIntent.uri && <Text>{shareIntent}</Text>}
-      {shareIntent?.uri && <Image source={shareIntent} style={styles.image} />}
+      {!!shareIntent && <Text style={styles.gap}>Share intent value:</Text>}
+      {!!shareIntent && !shareIntent.uri && (
+        <Text style={styles.gap}>{JSON.stringify(shareIntent)}</Text>
+      )}
+      {shareIntent?.uri && (
+        <Image source={shareIntent} style={[styles.image, styles.gap]} />
+      )}
       {!!shareIntent && <Button onPress={resetShareIntent} title="Reset" />}
       <StatusBar style="auto" />
     </View>
@@ -25,11 +29,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
   },
   image: {
     width: 200,
     height: 200,
     resizeMode: "contain",
+  },
+  gap: {
+    marginBottom: 20,
   },
 });
