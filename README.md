@@ -14,8 +14,8 @@ More Demo :
 
 - [Getting Started](#getting-started)
 - [How It Works](#how-it-works)
-  - [iOS Configuration](#ios-configuration)
-  - [Android Configuration](#android-configuration)
+  - [iOS Tricks](#ios-tricks)
+  - [Android Magic](#android-magic)
 - [Support](#support)
 
 ## Getting Started
