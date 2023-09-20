@@ -30,7 +30,8 @@
             "NSExtensionActivationSupportsImageWithMaxCount": 1
           }
         }
-      ]
+      ],
+      "expo-router"
     ],
     "ios": {
       "bundleIdentifier": "com.example.exposhareintentdemo",
