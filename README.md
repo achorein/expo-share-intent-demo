@@ -9,6 +9,7 @@ More Demo :
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
+- Expo 49 without expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
 
 ## Table of Contents
 
@@ -16,6 +17,9 @@ More Demo :
 - [How It Works](#how-it-works)
   - [iOS Tricks](#ios-tricks)
   - [Android Magic](#android-magic)
+- [Deep Dive](#deep-dive)
+  - [Expo Router](#expo-router)
+  - [React Navigation](#react-navigation)
 - [Support](#support)
 
 ## Getting Started
@@ -94,6 +98,30 @@ Simply choose content types you need :
 | androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                 |
 | androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                              |
 | androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}"` |
+
+## Deep Dive
+
+### Expo Router
+
+To use expo-router you need to handle [Unmatched Routes](https://docs.expo.dev/routing/error-handling/#unmatched-routes) . It's the only "screen" where we can call the native module using deeplink url (useShareIntent hook).
+
+An example is available with Expo Router v2 on [branch expo49-expo-router](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
+
+### React Navigation
+
+If you want to handle share intent with react-navigation (v6), we could add a custom mapping function in our linking configuration like this :
+
+```js
+  // see: https://reactnavigation.org/docs/configuring-links/#advanced-cases
+  getStateFromPath(path, config) {
+    if (path?.includes(`dataurl=${Constants.expoConfig.scheme}sharekey`)) {
+      return {
+        routes: [{ name: 'HomeStackScreen', params: { screen: 'ShareIntentScreen' } }],
+      };
+    }
+    return getStateFromPath(path, config);
+  },
+```
 
 ## Support
 
