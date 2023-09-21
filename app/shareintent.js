@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-import useShareIntent from "../hooks/useShareIntent";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
-export default function ShareIntent(props) {
+export default function ShareIntent() {
   const router = useRouter();
-  const { shareIntent } = useLocalSearchParams();
+  const shareIntent = useLocalSearchParams();
 
   return (
     <View style={styles.container}>
@@ -17,8 +16,8 @@ export default function ShareIntent(props) {
           Congratz, a share intent value is available
         </Text>
       )}
-      {!!shareIntent && !shareIntent.uri && (
-        <Text style={styles.gap}>{JSON.stringify(shareIntent)}</Text>
+      {!!shareIntent?.text && (
+        <Text style={styles.gap}>{shareIntent.text}</Text>
       )}
       {shareIntent?.uri && (
         <Image source={shareIntent} style={[styles.image, styles.gap]} />
