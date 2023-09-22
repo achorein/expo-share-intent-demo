@@ -20,6 +20,7 @@ More Demo :
 - [Deep Dive](#deep-dive)
   - [Expo Router](#expo-router)
   - [React Navigation](#react-navigation)
+- [Troubleshooting / FAQ](#troubleshooting---faq)
 - [Support](#support)
 
 ## Getting Started
@@ -93,23 +94,23 @@ Simply choose content types you need :
   ],
 ```
 
-| Option                        | Values                                                                                                                                                 |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                 |
-| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                              |
-| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}"` |
+| Option                        | Values                                                                                                                                                |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
+| androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                             |
+| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}` |
 
 ## Deep Dive
 
 ### Expo Router
 
-To use expo-router you need to handle [Unmatched Routes](https://docs.expo.dev/routing/error-handling/#unmatched-routes) . It's the only "screen" where we can call the native module using deeplink url (useShareIntent hook).
+With `expo-router` you need to handle loading elements on [Layout](https://docs.expo.dev/routing/appearance/). It's the only way to call the native module using deeplink url (useShareIntent hook).
 
 An example is available with Expo Router v2 on [branch expo49-expo-router](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
 
 ### React Navigation
 
-If you want to handle share intent with react-navigation (v6), we could add a custom mapping function in our linking configuration like this :
+If you want to handle share intent with react-navigation (v6), you could add a custom mapping function in our linking configuration like this :
 
 ```js
   // see: https://reactnavigation.org/docs/configuring-links/#advanced-cases
@@ -122,6 +123,29 @@ If you want to handle share intent with react-navigation (v6), we could add a cu
     return getStateFromPath(path, config);
   },
 ```
+
+## Troubleshooting - FAQ
+
+### iOS Extension Target
+
+When building on EAS you should only have **one** extension target (during credentials setting process).
+
+To avoid expo auto configuration to add an experimental "appExtensions" to `app.json` you must manually configure your eas build (projectId in `app.json` and a `eas.json` file).
+
+More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/15)
+
+### Expo Go ?
+
+We are using native code to make share intent works, so we can't use Expo Go and have to use a custom dev client, that's why the demo use `expo prebuild --no-install` command and then `expo run:ios`, instead of a simple `expo start --ios`
+-> More information [here](https://docs.expo.dev/workflow/customizing/)
+
+That way you can test your share intent into simulator, but that does not exempt you to test a complete build on device at the end of your development process to make sure all works as excepted.
+
+NB: don't commit your ios/ and android/ folder, rebuild it before EAS build.
+
+### Custom view ?
+
+This project does not support iOS custom view (native view in share intent context). Everything must be handle into React Native code.
 
 ## Support
 
