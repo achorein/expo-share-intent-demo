@@ -8,7 +8,7 @@ on:
     branches: main
 
 jobs:
-  build-yarn:
+  install-test-yarn:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,9 +17,9 @@ jobs:
           node-version: "16.x"
           registry-url: "https://registry.npmjs.org"
       - run: yarn install --immutable
-      - run: npm lint
+      - run: yarn lint
       - run: yarn prebuild
-  build-npm:
+  install-test-npm:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,5 +30,5 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - run: npm install
-      - run: npm lint
+      - run: npm run lint
       - run: npm run prebuild
