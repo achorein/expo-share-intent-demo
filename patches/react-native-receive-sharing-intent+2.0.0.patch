@@ -19,13 +19,13 @@ index 69126eb..b15059a 100644
 +    String action = intent.getAction();
 +    String type = intent.getType();
 +    if(type == null) { 
-+      promise.reject();
++      promise.reject("error", "Type is null");
 +      return; 
 +    }
 +    if(!type.startsWith("text") && (Objects.equals(action, Intent.ACTION_SEND) || Objects.equals(action, Intent.ACTION_SEND_MULTIPLE))){
 +      WritableMap files = getMediaUris(intent,context);
 +      if(files == null) {
-+        promise.reject();
++        promise.reject("error", "Files is null");
 +        return;
 +      }
 +      promise.resolve(files);
@@ -69,7 +69,7 @@ index 69126eb..b15059a 100644
 -          files.putMap("0",file);
 -          promise.resolve(files);
 +        if(files == null) {
-+          promise.reject();
++          promise.reject("error", "Files is null");
 +          return;
          }
 -
@@ -149,11 +149,11 @@ index 69126eb..b15059a 100644
 +      files.putMap("0", file);
 +      promise.resolve(files);
 +    }else{
-+      promise.reject();
++      promise.reject("error","Invalid file type.");
      }
 -  };
 +  }catch (Exception e){
-+    promise.reject();
++    promise.reject("error",e.toString());
 +  }
 +};
  
@@ -191,7 +191,7 @@ index f752144..f0bd892 100644
 +public void getFileNames(Promise promise) {
 +  Activity mActivity = getCurrentActivity();
 +  if (mActivity == null) {
-+    promise.reject();
++    promise.reject("ACTIVITY_NULL", "Activity is null");
 +    return;
 +  }
 +  Intent intent = mActivity.getIntent();
