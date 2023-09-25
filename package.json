@@ -8,6 +8,7 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "test": "CI=1 expo install --check",
+    "lint": "eslint .",
     "test:fix": "expo install --fix",
     "doctor": "npx expo-doctor",
     "postinstall": "patch-package"
@@ -35,7 +36,10 @@
     "@expo/config-plugins": "~6.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6"
+    "@babel/core": "^7.18.6",
+    "eslint": "^8.50.0",
+    "eslint-config-universe": "^12.0.0",
+    "prettier": "^3.0.3"
   },
   "private": true
 }

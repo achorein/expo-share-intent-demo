@@ -1,7 +1,6 @@
+import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
-import Constants from "expo-constants";
-
 import ReceiveSharingIntent from "react-native-receive-sharing-intent";
 
 export default function useShareIntent() {
@@ -52,7 +51,7 @@ export default function useShareIntent() {
       (err) => {
         console.log("useShareIntent[mount] error", err);
       },
-      Constants.expoConfig.scheme
+      Constants.expoConfig.scheme,
     );
     return () => {
       ReceiveSharingIntent?.clearReceivedFiles();
