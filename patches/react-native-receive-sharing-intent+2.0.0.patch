@@ -19,8 +19,11 @@ index 69126eb..b15059a 100644
 +    String action = intent.getAction();
 +    String type = intent.getType();
 +    if(type == null) { 
-+      promise.reject("error", "Type is null");
-+      return; 
++      WritableMap intentState = Arguments.createMap();
++      WritableArray emptyArray = Arguments.createArray();
++      intentState.putArray("intent", emptyArray);
++      promise.resolve(intentState);
++      return;
 +    }
 +    if(!type.startsWith("text") && (Objects.equals(action, Intent.ACTION_SEND) || Objects.equals(action, Intent.ACTION_SEND_MULTIPLE))){
 +      WritableMap files = getMediaUris(intent,context);
