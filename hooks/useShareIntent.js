@@ -28,9 +28,10 @@ export default function useShareIntent() {
     console.log("useShareIntent[mount]", Constants.expoConfig.scheme);
     ReceiveSharingIntent?.getReceivedFiles(
       (data) => {
-        if(!data || data.intent.length === 0) {
+        if (!data || data.length === 0) {
           console.log("useShareIntent[mount] no share intent detected");
-          return;        }
+          return;
+        }
         const intent = data[0];
         if (intent.weblink || intent.text) {
           const link = intent.weblink || intent.text || "";

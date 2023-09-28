@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
-index 69126eb..b15059a 100644
+index 69126eb..6ecf9b4 100644
 --- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
 +++ b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
 @@ -26,83 +26,92 @@ public class ReceiveSharingIntentHelper {
@@ -19,10 +19,7 @@ index 69126eb..b15059a 100644
 +    String action = intent.getAction();
 +    String type = intent.getType();
 +    if(type == null) { 
-+      WritableMap intentState = Arguments.createMap();
-+      WritableArray emptyArray = Arguments.createArray();
-+      intentState.putArray("intent", emptyArray);
-+      promise.resolve(intentState);
++      promise.resolve(null);
 +      return;
 +    }
 +    if(!type.startsWith("text") && (Objects.equals(action, Intent.ACTION_SEND) || Objects.equals(action, Intent.ACTION_SEND_MULTIPLE))){
@@ -207,10 +204,10 @@ index f752144..f0bd892 100644
    @ReactMethod
    public void clearFileNames(){
 diff --git a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
-index 735c191..91dab4b 100644
+index 735c191..8415a3a 100644
 --- a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
 +++ b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
-@@ -33,7 +33,7 @@ class ReceiveSharingIntentModule implements IReceiveSharingIntent {
+@@ -33,18 +33,20 @@ class ReceiveSharingIntentModule implements IReceiveSharingIntent {
      }
  
      clearReceivedFiles(){
@@ -219,3 +216,16 @@ index 735c191..91dab4b 100644
      }
  
      
+    protected getFileNames(handler: Function, errorHandler: Function, url: string){
+         if(this.isIos){
+             ReceiveSharingIntent.getFileNames(url).then((data: any)=>{         
++                 if (!data) { handler([]); return; }
+                  let files = this.utils.sortData(data);
+                  handler(files);
+             }).catch((e:any)=>errorHandler(e));
+         }else{
+             ReceiveSharingIntent.getFileNames().then((fileObject: any) => {
++                if (!fileObject) { handler([]); return; }
+                 let files = Object.keys(fileObject).map((k) => fileObject[k])
+                 handler(files);
+             }).catch((e:any)=>errorHandler(e));
