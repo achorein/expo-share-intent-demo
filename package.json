@@ -4,7 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --dev-client",
-    "clean": "expo prebuild --clean",
+    "clean": "expo prebuild --no-install --clean",
     "prebuild": "expo prebuild --no-install",
     "ios": "expo run:ios",
     "android": "expo run:android",
