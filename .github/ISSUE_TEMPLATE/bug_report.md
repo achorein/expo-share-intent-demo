@@ -13,12 +13,13 @@ A clear and concise description of what the bug is.
 **To Reproduce**
 Steps to reproduce the behavior
 
-
 ** Environment **
-give the output of the following command
-```bash
-npx react-native info
-```
+give the output of the following command `npx react-native info`
 
 **Additional context**
 Add any other context about the problem here.
+- expo version (ex: 49)
+- branch (ex: expo49-expo-router)
+- target : Android / iOS
+- device : simulator / real device
+- type: local build / expo build
