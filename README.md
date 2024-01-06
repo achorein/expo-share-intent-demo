@@ -132,7 +132,7 @@ When building on EAS you should only have **one** extension target (during crede
 
 To avoid expo auto configuration to add an experimental "appExtensions" to `app.json` you must manually configure your eas build (projectId in `app.json` and a `eas.json` file).
 
-More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/15)
+More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/1)
 
 ### Expo Go ?
 
