@@ -14,7 +14,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
-    "expo": "~48.0.18",
+    "expo": "~48.0.21",
     "expo-config-plugin-ios-share-extension": "^0.0.4",
     "expo-constants": "~14.2.1",
     "expo-dev-client": "~2.2.1",
@@ -24,12 +24,12 @@
     "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.8",
+    "react-native": "0.71.14",
     "react-native-receive-sharing-intent": "^2.0.0",
     "react-native-web": "~0.18.7"
   },
   "overrides": {
-    "react-native": "0.71.8",
+    "react-native": "0.71.14",
     "@expo/config-plugins": "~6.0.0"
   },
   "resolutions": {
