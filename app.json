@@ -14,6 +14,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "plugins": [
+      "./plugins/withPatchBoostPod",
       [
         "./plugins/withAndroidShareExtension/index",
         {
