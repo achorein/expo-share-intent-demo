@@ -2,13 +2,14 @@
 
 This project demonstrates a functional share intent in an Expo (React Native) project. It allows to use Expo's auto-configuration for the `react-native-receive-sharing-intent` package.
 
-This demo works with **Expo SDK 49**. Is compatible with **Android** and **iOS** and support URL, text, images, videos and files sharing.
+This demo works with **Expo SDK 50**. Is compatible with **Android** and **iOS** and support URL, text, images, videos and files sharing.
 
 More Demo :
 
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
+- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
 - Expo 49 with expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
 
 ## Table of Contents
@@ -98,7 +99,7 @@ Simply choose content types you need :
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
 | androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                             |
-| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}` |
+| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 34 }` , _default value_: `{}` |
 
 ## Deep Dive
 
@@ -132,7 +133,7 @@ When building on EAS you should only have **one** extension target (during crede
 
 To avoid expo auto configuration to add an experimental "appExtensions" to `app.json` you must manually configure your eas build (projectId in `app.json` and a `eas.json` file).
 
-More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/15)
+More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/1)
 
 ### Expo Go ?
 

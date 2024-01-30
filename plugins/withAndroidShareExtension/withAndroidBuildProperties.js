@@ -14,7 +14,7 @@ function addBuildProperties(properties, sdkVersion, extraBuildProperties = {}) {
         {
             type: "property",
             key: "android.kotlinVersion",
-            value: "1.6.10",
+            value: "1.8.10",
         },
         ...Object.keys(extraBuildProperties).map((key) => ({
             type: "property",

@@ -47,10 +47,10 @@ index 9303aa4..2ff63dd 100644
 -ReceiveSharingIntent_compileSdkVersion=29
 -ReceiveSharingIntent_buildToolsVersion=29.0.2
 -ReceiveSharingIntent_targetSdkVersion=29
-+ReceiveSharingIntent_kotlinVersion=1.6.10
-+ReceiveSharingIntent_compileSdkVersion=33
-+ReceiveSharingIntent_buildToolsVersion=33.0.1
-+ReceiveSharingIntent_targetSdkVersion=33
++ReceiveSharingIntent_kotlinVersion=1.8.10
++ReceiveSharingIntent_compileSdkVersion=34
++ReceiveSharingIntent_buildToolsVersion=34.0.0
++ReceiveSharingIntent_targetSdkVersion=34
 +android.useAndroidX=true
 diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml b/node_modules/react-native-receive-sharing-intent/android/src/main/AndroidManifest.xml
 index d19929a..0a0938a 100644
