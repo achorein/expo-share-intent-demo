@@ -7,7 +7,7 @@ index 02cc8f2..2726157 100644
  
    dependencies {
 -    classpath 'com.android.tools.build:gradle:3.2.1'
-+    classpath 'com.android.tools.build:gradle:8.0.1'
++    classpath 'com.android.tools.build:gradle:7.4.1'
      // noinspection DifferentKotlinGradleVersion
      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
    }
