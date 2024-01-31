@@ -10,6 +10,7 @@ More Demo :
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
 - Expo 49 with expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
+- Expo 50 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo50)
 
 ## Table of Contents
 
@@ -98,7 +99,7 @@ Simply choose content types you need :
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
 | androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                             |
-| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 33 }` , _default value_: `{}` |
+| androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 34 }` , _default value_: `{}` |
 
 ## Deep Dive
 
