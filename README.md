@@ -10,6 +10,7 @@ More Demo :
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
 - Expo 49 without expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
+- Expo 50 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo50)
 
 ## Table of Contents
 
@@ -122,6 +123,29 @@ If you want to handle share intent with react-navigation (v6), we could add a cu
     return getStateFromPath(path, config);
   },
 ```
+
+## Troubleshooting - FAQ
+
+### iOS Extension Target
+
+When building on EAS you should only have **one** extension target (during credentials setting process).
+
+To avoid expo auto configuration to add an experimental "appExtensions" to `app.json` you must manually configure your eas build (projectId in `app.json` and a `eas.json` file).
+
+More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/1)
+
+### Expo Go ?
+
+We are using native code to make share intent works, so we can't use Expo Go and have to use a custom dev client, that's why the demo use `expo prebuild --no-install` command and then `expo run:ios`, instead of a simple `expo start --ios`
+-> More information [here](https://docs.expo.dev/workflow/customizing/)
+
+That way you can test your share intent into simulator, but that does not exempt you to test a complete build on device at the end of your development process to make sure all works as excepted.
+
+NB: don't commit your ios/ and android/ folder, rebuild it before EAS build.
+
+### Custom view ?
+
+This project does not support iOS custom view (native view in share intent context). Everything must be handle into React Native code.
 
 ## Support
 
