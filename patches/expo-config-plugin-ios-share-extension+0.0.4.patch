@@ -94,7 +94,7 @@ index 6e70fac..81164d8 100644
 -export declare function getShareExtensionViewControllerContent(scheme: string): string;
 +export declare function getShareExtensionViewControllerContent(scheme: string, appIdentifier: string): string;
 diff --git a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js b/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
-index 5f0e1db..b2d1afa 100644
+index 5f0e1db..875f17b 100644
 --- a/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
 +++ b/node_modules/expo-config-plugin-ios-share-extension/build/writeShareExtensionFiles.js
 @@ -8,9 +8,9 @@ const node_path_1 = __importDefault(require("node:path"));
@@ -140,7 +140,7 @@ index 5f0e1db..b2d1afa 100644
                      NSExtensionActivationSupportsWebURLWithMaxCount: 1,
                      NSExtensionActivationSupportsWebPageWithMaxCount: 1,
                  },
-@@ -104,131 +104,344 @@ function getShareExtensionViewControllerPath(platformProjectRoot) {
+@@ -104,131 +104,362 @@ function getShareExtensionViewControllerPath(platformProjectRoot) {
      return node_path_1.default.join(platformProjectRoot, constants_1.shareExtensionName, constants_1.shareExtensionViewControllerFileName);
  }
  exports.getShareExtensionViewControllerPath = getShareExtensionViewControllerPath;
@@ -155,7 +155,7 @@ index 5f0e1db..b2d1afa 100644
 +  import Social
 +  import MobileCoreServices
 +  import Photos
-   
+     
 -class ShareViewController: UIViewController {
 -    // IMPORTANT: This should be your host app scheme
 -    let hostAppURLScheme = "${scheme}"
@@ -286,18 +286,18 @@ index 5f0e1db..b2d1afa 100644
 +   let textContentType = kUTTypeText as String
 +   let urlContentType = kUTTypeURL as String
 +   let fileURLType = kUTTypeFileURL as String;
-+  
++    
 +   override func isContentValid() -> Bool {
 +     return true
 +   }
-+      
++        
 +   override func viewDidLoad() {
 +         super.viewDidLoad();
 +     }
-+      
++        
 +   override func viewDidAppear(_ animated: Bool) {
 +           super.viewDidAppear(animated)
-+          
++            
 +     if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
 +       if let contents = content.attachments {
 +         for (index, attachment) in (contents).enumerated() {
@@ -316,23 +316,23 @@ index 5f0e1db..b2d1afa 100644
 +       }
 +     }
 +   }
-+      
++        
 +   override func didSelectPost() {
 +         print("didSelectPost");
 +     }
-+      
++        
 +   override func configurationItems() -> [Any]! {
 +     // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
 +     return []
 +   }
-+  
++    
 +   private func handleText (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
 +     attachment.loadItem(forTypeIdentifier: textContentType, options: nil) { [weak self] data, error in
-+      
++        
 +       if error == nil, let item = data as? String, let this = self {
-+      
++        
 +         this.sharedText.append(item)
-+          
++            
 +         // If this is the last item, save imagesData in userDefaults and redirect to host app
 +         if index == (content.attachments?.count)! - 1 {
 +           let userDefaults = UserDefaults(suiteName: "group.\\(this.hostAppBundleIdentifier)")
@@ -340,20 +340,20 @@ index 5f0e1db..b2d1afa 100644
 +           userDefaults?.synchronize()
 +           this.redirectToHostApp(type: .text)
 +         }
-+              
++                
 +       } else {
 +         self?.dismissWithError()
 +       }
 +     }
 +   }
-+              
++                
 +   private func handleUrl (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
 +     attachment.loadItem(forTypeIdentifier: urlContentType, options: nil) { [weak self] data, error in
-+              
++                
 +       if error == nil, let item = data as? URL, let this = self {
-+      
++        
 +         this.sharedText.append(item.absoluteString)
-+      
++        
 +         // If this is the last item, save imagesData in userDefaults and redirect to host app
 +         if index == (content.attachments?.count)! - 1 {
 +           let userDefaults = UserDefaults(suiteName: "group.\\(this.hostAppBundleIdentifier)")
@@ -361,29 +361,33 @@ index 5f0e1db..b2d1afa 100644
 +           userDefaults?.synchronize()
 +           this.redirectToHostApp(type: .text)
 +         }
-+      
++        
 +       } else {
 +         self?.dismissWithError()
 +       }
 +     }
 +   }
-+   
++    
 +   private func handleImages (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
 +     attachment.loadItem(forTypeIdentifier: imageContentType, options: nil) { [weak self] data, error in
-+       
-+       if error == nil, let url = data as? URL, let this = self {
++
++       if error == nil, let this = self {
++        var url: URL? = nil
++        if let dataURL = data as? URL { url = dataURL }
++        else if let imageData = data as? UIImage { url = this.saveScreenshot(imageData) }
++
 +         //  this.redirectToHostApp(type: .media)
 +         // Always copy
-+         let fileExtension = this.getExtension(from: url, type: .video)
++         let fileExtension = this.getExtension(from: url!, type: .image)
 +         let newName = UUID().uuidString
 +         let newPath = FileManager.default
 +           .containerURL(forSecurityApplicationGroupIdentifier: "group.\\(this.hostAppBundleIdentifier)")!
 +           .appendingPathComponent("\\(newName).\\(fileExtension)")
-+         let copied = this.copyFile(at: url, to: newPath)
++         let copied = this.copyFile(at: url!, to: newPath)
 +         if(copied) {
 +           this.sharedMedia.append(SharedMediaFile(path: newPath.absoluteString, thumbnail: nil, duration: nil, type: .image))
 +         }
-+         
++    
 +         // If this is the last item, save imagesData in userDefaults and redirect to host app
 +         if index == (content.attachments?.count)! - 1 {
 +           let userDefaults = UserDefaults(suiteName: "group.\\(this.hostAppBundleIdentifier)")
@@ -398,6 +402,20 @@ index 5f0e1db..b2d1afa 100644
 +     }
 +   }
 +   
++   private func documentDirectoryPath () -> URL?  {
++     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
++     return path.first
++   }
++
++   private func saveScreenshot(_ image: UIImage) -> URL? {
++     var screenshotURL: URL? = nil
++     if let screenshotData = image.pngData(), let screenshotPath = documentDirectoryPath()?.appendingPathComponent("Screenshot.png") {
++       try? screenshotData.write(to: screenshotPath)
++       screenshotURL = screenshotPath
++     }
++     return screenshotURL
++   }
++
 +   private func handleVideos (content: NSExtensionItem, attachment: NSItemProvider, index: Int) {
 +     attachment.loadItem(forTypeIdentifier: videoContentType, options:nil) { [weak self] data, error in
 +       
