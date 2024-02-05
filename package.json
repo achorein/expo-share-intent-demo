@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.1.1",
-    "expo": "^50.0.4",
+    "expo": "~50.0.5",
     "expo-config-plugin-ios-share-extension": "^0.0.4",
     "expo-constants": "~15.4.5",
-    "expo-dev-client": "~3.3.7",
+    "expo-dev-client": "~3.3.8",
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "patch-package": "^8.0.0",
