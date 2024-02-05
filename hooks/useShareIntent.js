@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
+
 import Constants from "expo-constants";
 
 import ReceiveSharingIntent from "react-native-receive-sharing-intent";
@@ -30,14 +31,14 @@ export const getShareIntentAsync = async () => {
           });
         } else {
           console.warn("useShareIntent[get] share type not handled", data);
-          reject("TYPE_NOT_HANDLED");
+          reject(new Error("TYPE_NOT_HANDLED"));
         }
       },
       (err) => {
-        console.error("useShareIntent[get] error", err);
+        console.error("useShareIntent[get] internal native module error", err);
         reject(err);
       },
-      Constants.expoConfig.scheme
+      Constants.expoConfig.scheme,
     );
   });
 };
@@ -67,7 +68,7 @@ export default function useShareIntent() {
       ) {
         console.debug("useShareIntent[to-background] reset intent");
         setShareIntent(null);
-        clearShareIntent()
+        clearShareIntent();
       }
 
       appState.current = nextAppState;
