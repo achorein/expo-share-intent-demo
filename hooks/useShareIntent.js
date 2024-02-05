@@ -8,6 +8,10 @@ export const getShareIntentAsync = async () => {
   return new Promise((resolve, reject) => {
     ReceiveSharingIntent.getReceivedFiles(
       (data) => {
+        if (!data || data.length === 0) {
+          console.log("useShareIntent[data] no share intent detected");
+          return;
+        }
         const intent = data[0];
         if (intent.weblink || intent.text) {
           const link = intent.weblink || intent.text || "";
@@ -26,14 +30,14 @@ export const getShareIntentAsync = async () => {
           });
         } else {
           console.warn("useShareIntent[get] share type not handled", data);
-          reject("TYPE_NOT_HANDLED");
+          reject(new Error("TYPE_NOT_HANDLED"));
         }
       },
       (err) => {
-        console.error("useShareIntent[get] error", err);
+        console.error("useShareIntent[get] internal native module error", err);
         reject(err);
       },
-      Constants.expoConfig.scheme
+      Constants.expoConfig.scheme,
     );
   });
 };
@@ -63,7 +67,7 @@ export default function useShareIntent() {
       ) {
         console.debug("useShareIntent[to-background] reset intent");
         setShareIntent(null);
-        clearShareIntent()
+        clearShareIntent();
       }
 
       appState.current = nextAppState;
