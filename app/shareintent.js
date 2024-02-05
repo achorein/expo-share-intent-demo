@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
