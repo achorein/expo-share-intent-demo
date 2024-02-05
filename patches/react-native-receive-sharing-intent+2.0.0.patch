@@ -62,6 +62,18 @@ index d19929a..0a0938a 100644
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android">
  
  </manifest>
+index 02cc8f2..b891660 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/build.gradle
++++ b/node_modules/react-native-receive-sharing-intent/android/build.gradle
+@@ -29,7 +29,7 @@ android {
+   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+   buildToolsVersion getExtOrDefault('buildToolsVersion')
+   defaultConfig {
+-    minSdkVersion 16
++    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
+     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+     versionCode 1
+     versionName "1.0"
 diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
 index 69126eb..6ecf9b4 100644
 --- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
