@@ -1,5 +1,166 @@
+diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
+index 69126eb..6ecf9b4 100644
+--- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
++++ b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentHelper.java
+@@ -26,83 +26,92 @@ public class ReceiveSharingIntentHelper {
+     this.context = context;
+   }
+ 
+-  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+-  public void sendFileNames(Context context, Intent intent, Promise promise){
+-    try {
+-      String action = intent.getAction();
+-      String type = intent.getType();
+-      if(type == null) { return; }
+-      if(!type.startsWith("text") && (Objects.equals(action, Intent.ACTION_SEND) || Objects.equals(action, Intent.ACTION_SEND_MULTIPLE))){
++@RequiresApi(api = Build.VERSION_CODES.KITKAT)
++public void sendFileNames(Context context, Intent intent, Promise promise){
++  try {
++    String action = intent.getAction();
++    String type = intent.getType();
++    if(type == null) { 
++      promise.resolve(null);
++      return;
++    }
++    if(!type.startsWith("text") && (Objects.equals(action, Intent.ACTION_SEND) || Objects.equals(action, Intent.ACTION_SEND_MULTIPLE))){
++      WritableMap files = getMediaUris(intent,context);
++      if(files == null) {
++        promise.reject("error", "Files is null");
++        return;
++      }
++      promise.resolve(files);
++    }else if(type.startsWith("text") && Objects.equals(action, Intent.ACTION_SEND)){
++      String text = null;
++      String subject = null;
++      try{
++        text = intent.getStringExtra(Intent.EXTRA_TEXT);
++        subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
++      }catch (Exception ignored){ }
++      if(text == null){
+         WritableMap files = getMediaUris(intent,context);
+-        if(files == null) return;
+-        promise.resolve(files);
+-      }else if(type.startsWith("text") && Objects.equals(action, Intent.ACTION_SEND)){
+-        String text = null;
+-        String subject = null;
+-        try{
+-          text = intent.getStringExtra(Intent.EXTRA_TEXT);
+-          subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+-        }catch (Exception ignored){ }
+-        if(text == null){
+-          WritableMap files = getMediaUris(intent,context);
+-          if(files == null) return;
+-          promise.resolve(files);
+-        }else{
+-          WritableMap files = new WritableNativeMap();
+-          WritableMap file = new WritableNativeMap();
+-          file.putString("contentUri",null);
+-          file.putString("filePath", null);
+-          file.putString("fileName", null);
+-          file.putString("extension", null);
+-          if(text.startsWith("http")){
+-            file.putString("weblink", text);
+-            file.putString("text",null);
+-          }else{
+-            file.putString("weblink", null);
+-            file.putString("text",text);
+-          }
+-          file.putString("subject", subject);
+-          files.putMap("0",file);
+-          promise.resolve(files);
++        if(files == null) {
++          promise.reject("error", "Files is null");
++          return;
+         }
+-
+-      }else if(Objects.equals(action, Intent.ACTION_VIEW)){
+-        String link = intent.getDataString();
++        promise.resolve(files);
++      }else{
+         WritableMap files = new WritableNativeMap();
+         WritableMap file = new WritableNativeMap();
+         file.putString("contentUri",null);
+         file.putString("filePath", null);
+-        file.putString("mimeType",null);
+-        file.putString("text",null);
+-        file.putString("weblink", link);
+         file.putString("fileName", null);
+         file.putString("extension", null);
++        if(text.startsWith("http")){
++          file.putString("weblink", text);
++          file.putString("text",null);
++        }else{
++          file.putString("weblink", null);
++          file.putString("text",text);
++        }
++        file.putString("subject", subject);
+         files.putMap("0",file);
+         promise.resolve(files);
+       }
+-      else if (Objects.equals(action, "android.intent.action.PROCESS_TEXT")) {
+-        String text = null;
+-        try {
+-          text = intent.getStringExtra(intent.EXTRA_PROCESS_TEXT);
+-        } catch (Exception e) {
+-        }
+-          WritableMap files = new WritableNativeMap();
+-          WritableMap file = new WritableNativeMap();
+-          file.putString("contentUri", null);
+-          file.putString("filePath", null);
+-          file.putString("fileName", null);
+-          file.putString("extension", null);
+-          file.putString("weblink", null);
+-          file.putString("text", text);
+-          files.putMap("0", file);
+-          promise.resolve(files);
+-      }else{
+-        promise.reject("error","Invalid file type.");
++
++    }else if(Objects.equals(action, Intent.ACTION_VIEW)){
++      String link = intent.getDataString();
++      WritableMap files = new WritableNativeMap();
++      WritableMap file = new WritableNativeMap();
++      file.putString("contentUri",null);
++      file.putString("filePath", null);
++      file.putString("mimeType",null);
++      file.putString("text",null);
++      file.putString("weblink", link);
++      file.putString("fileName", null);
++      file.putString("extension", null);
++      files.putMap("0",file);
++      promise.resolve(files);
++    }
++    else if (Objects.equals(action, "android.intent.action.PROCESS_TEXT")) {
++      String text = null;
++      try {
++        text = intent.getStringExtra(intent.EXTRA_PROCESS_TEXT);
++      } catch (Exception e) {
+       }
+-    }catch (Exception e){
+-      promise.reject("error",e.toString());
++      WritableMap files = new WritableNativeMap();
++      WritableMap file = new WritableNativeMap();
++      file.putString("contentUri", null);
++      file.putString("filePath", null);
++      file.putString("fileName", null);
++      file.putString("extension", null);
++      file.putString("weblink", null);
++      file.putString("text", text);
++      files.putMap("0", file);
++      promise.resolve(files);
++    }else{
++      promise.reject("error","Invalid file type.");
+     }
+-  };
++  }catch (Exception e){
++    promise.reject("error",e.toString());
++  }
++};
+ 
+ 
+   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 diff --git a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
-index f752144..725918a 100644
+index f752144..f0bd892 100644
 --- a/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
 +++ b/node_modules/react-native-receive-sharing-intent/android/src/main/java/com/reactnativereceivesharingintent/ReceiveSharingIntentModule.java
 @@ -18,6 +18,7 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
@@ -10,7 +171,7 @@ index f752144..725918a 100644
  
    public ReceiveSharingIntentModule(ReactApplicationContext reactContext) {
      super(reactContext);
-@@ -30,6 +31,7 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
+@@ -30,18 +31,24 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
    protected void onNewIntent(Intent intent) {
      Activity mActivity = getCurrentActivity();
      if(mActivity == null) { return; }
@@ -18,22 +179,35 @@ index f752144..725918a 100644
      mActivity.setIntent(intent);
    }
  
-@@ -40,7 +42,9 @@ public class ReceiveSharingIntentModule extends ReactContextBaseJavaModule {
-     if(mActivity == null) { return; }
-     Intent intent = mActivity.getIntent();
-     receiveSharingIntentHelper.sendFileNames(reactContext, intent, promise);
+   @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+-  @ReactMethod
+-  public void getFileNames(Promise promise){
+-    Activity mActivity = getCurrentActivity();
+-    if(mActivity == null) { return; }
+-    Intent intent = mActivity.getIntent();
+-    receiveSharingIntentHelper.sendFileNames(reactContext, intent, promise);
 -    mActivity.setIntent(null);
-+    if (oldIntent != null) {
-+      mActivity.setIntent(oldIntent);
-+    }  
++@ReactMethod
++public void getFileNames(Promise promise) {
++  Activity mActivity = getCurrentActivity();
++  if (mActivity == null) {
++    promise.reject("ACTIVITY_NULL", "Activity is null");
++    return;
++  }
++  Intent intent = mActivity.getIntent();
++  receiveSharingIntentHelper.sendFileNames(reactContext, intent, promise);
++  if (oldIntent != null) {
++    mActivity.setIntent(oldIntent);
    }
++}
  
    @ReactMethod
+   public void clearFileNames(){
 diff --git a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
-index 735c191..91dab4b 100644
+index 735c191..8415a3a 100644
 --- a/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
 +++ b/node_modules/react-native-receive-sharing-intent/src/ReceiveSharingIntent.ts
-@@ -33,7 +33,7 @@ class ReceiveSharingIntentModule implements IReceiveSharingIntent {
+@@ -33,18 +33,20 @@ class ReceiveSharingIntentModule implements IReceiveSharingIntent {
      }
  
      clearReceivedFiles(){
@@ -42,3 +216,16 @@ index 735c191..91dab4b 100644
      }
  
      
+    protected getFileNames(handler: Function, errorHandler: Function, url: string){
+         if(this.isIos){
+             ReceiveSharingIntent.getFileNames(url).then((data: any)=>{         
++                 if (!data) { handler([]); return; }
+                  let files = this.utils.sortData(data);
+                  handler(files);
+             }).catch((e:any)=>errorHandler(e));
+         }else{
+             ReceiveSharingIntent.getFileNames().then((fileObject: any) => {
++                if (!fileObject) { handler([]); return; }
+                 let files = Object.keys(fileObject).map((k) => fileObject[k])
+                 handler(files);
+             }).catch((e:any)=>errorHandler(e));
