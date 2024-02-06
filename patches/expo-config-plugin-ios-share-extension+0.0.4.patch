@@ -59,7 +59,7 @@ index d5d454d..7cc07f7 100644
  const constants_1 = require("./constants");
  const writeShareExtensionFiles_1 = require("./writeShareExtensionFiles");
 -const withShareExtensionXcodeTarget = (config) => {
-+const withShareExtensionXcodeTarget = (config, parameters) => {
++const withShareExtensionXcodeTarget = (config, parameters = {}) => {
      return (0, config_plugins_1.withXcodeProject)(config, async (config) => {
          var _a;
          const extensionName = constants_1.shareExtensionName;
