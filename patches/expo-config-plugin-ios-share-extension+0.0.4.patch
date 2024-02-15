@@ -102,7 +102,7 @@ index 5f0e1db..875f17b 100644
  const plist_1 = __importDefault(require("@expo/plist"));
  const constants_1 = require("./constants");
 -async function writeShareExtensionFiles(platformProjectRoot, scheme, appIdentifier) {
-+async function writeShareExtensionFiles(platformProjectRoot, scheme, appIdentifier, parameters) {
++async function writeShareExtensionFiles(platformProjectRoot, scheme, appIdentifier, parameters = {}) {
      const infoPlistFilePath = getShareExtensionInfoFilePath(platformProjectRoot);
 -    const infoPlistContent = getShareExtensionInfoContent();
 +    const infoPlistContent = getShareExtensionInfoContent(parameters.activationRules);
