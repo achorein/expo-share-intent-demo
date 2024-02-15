@@ -135,6 +135,17 @@ To avoid expo auto configuration to add an experimental "appExtensions" to `app.
 
 More details in [#1](https://github.com/achorein/expo-share-intent-demo/issues/1)
 
+### Config sync failed
+
+- On post-install script sometimes an error occurs about `withIosXcodeprojBaseMod`, if it happens try removing `node_modules` and rerun `yarn install` (more info [#31](https://github.com/achorein/expo-share-intent-demo/issues/31))
+
+```bash
+$ yarn install
+⠙ Config syncing************ scheme thisisdope
+✖ Config sync failed
+TypeError: [ios.xcodeproj]: withIosXcodeprojBaseMod: Cannot read properties of null (reading 'path')
+```
+
 ### Expo Go ?
 
 We are using native code to make share intent works, so we can't use Expo Go and have to use a custom dev client, that's why the demo use `expo prebuild --no-install` command and then `expo run:ios`, instead of a simple `expo start --ios`
