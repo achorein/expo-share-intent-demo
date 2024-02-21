@@ -4,6 +4,8 @@ This project demonstrates a functional share intent in an Expo (React Native) pr
 
 This demo works with **Expo SDK 50**. Is compatible with **Android** and **iOS** and support URL, text, images, videos and files sharing.
 
+> 🚧⚠️ **WIP:** a single npm package is currently into development:  [expo-share-intent](https://github.com/achorein/expo-share-intent). It implements an expo native module to unify the iOS and Android part.
+
 More Demo :
 
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
@@ -11,6 +13,7 @@ More Demo :
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
 - Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
 - Expo 49 with expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
+
 
 ## Table of Contents
 
