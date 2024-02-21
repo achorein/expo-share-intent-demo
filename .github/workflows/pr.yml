@@ -5,7 +5,6 @@ name: React Native CI for PR
 
 on:
   pull_request:
-    branches: main
 
 jobs:
   install-test-yarn:
