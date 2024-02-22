@@ -12,26 +12,43 @@ export const getShareIntentAsync = async () => {
           console.log("useShareIntent[data] no share intent detected");
           return;
         }
-        const intent = data[0];
-        if (intent.weblink || intent.text) {
-          const link = intent.weblink || intent.text || "";
-          console.debug("useShareIntent[text/url]", link);
-          resolve({ text: JSON.stringify(link) });
-        } else if (intent.filePath) {
-          console.debug("useShareIntent[file]", {
-            uri: intent.contentUri || intent.filePath,
-            mimeType: intent.mimeType,
-            fileName: intent.fileName,
-          });
-          resolve({
-            uri: intent.contentUri || intent.filePath,
-            mimeType: intent.mimeType,
-            fileName: intent.fileName,
-          });
-        } else {
-          console.warn("useShareIntent[get] share type not handled", data);
-          reject(new Error("TYPE_NOT_HANDLED"));
-        }
+        const intents = data.map((intent) => {
+          if (intent.weblink || intent.text) {
+            const link = intent.weblink || intent.text || "";
+            console.debug("useShareIntent[text/url]", link);
+            return { text: JSON.stringify(link) };
+          } else if (intent.filePath) {
+            console.debug("useShareIntent[file]", {
+              uri: intent.contentUri || intent.filePath,
+              mimeType: intent.mimeType,
+              fileName: intent.fileName,
+            });
+            return {
+              uri: intent.contentUri || intent.filePath,
+              mimeType: intent.mimeType,
+              fileName: intent.fileName,
+            };
+          } else {
+            console.warn("useShareIntent[get] share type not handled", data);
+            reject(new Error("TYPE_NOT_HANDLED"));
+          }
+        });
+        resolve(
+          intents.reduce(
+            (acc, curr) => {
+              acc.text = curr.text;
+              if (curr.uri) {
+                if (!acc.files) {
+                  acc.files = [curr];
+                } else {
+                  acc.files = [...acc.files, curr];
+                }
+              }
+              return acc;
+            },
+            { text: null, files: null },
+          ),
+        );
       },
       (err) => {
         console.error("useShareIntent[get] internal native module error", err);
@@ -86,6 +103,7 @@ export default function useShareIntent() {
   console.debug("useShareIntent[render]", shareIntent);
 
   return {
+    hasShareIntent: shareIntent?.text || shareIntent?.files,
     shareIntent,
     resetShareIntent: () => setShareIntent(null),
     error,

@@ -100,7 +100,8 @@ Simply choose content types you need :
 
 | Option                        | Values                                                                                                                                                |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| androidIntentFilters          | array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
+| androidIntentFilters          | **one file sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
+| androidMultiIntentFilters | **multiple files sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"audio/*`/ `"*/*"`<br/>_default value_: `[]` |
 | androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                             |
 | androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 34 }` , _default value_: `{}` |
 

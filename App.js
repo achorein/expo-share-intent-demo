@@ -4,19 +4,19 @@ import { StatusBar } from "expo-status-bar";
 import useShareIntent from "./hooks/useShareIntent";
 
 export default function App() {
-  const { shareIntent, resetShareIntent } = useShareIntent();
+  const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntent();
 
   return (
     <View style={styles.container}>
-      {!shareIntent && <Text>No Share intent detected</Text>}
-      {!!shareIntent && <Text style={styles.gap}>Share intent value:</Text>}
-      {!!shareIntent && !shareIntent.uri && (
+      {!hasShareIntent && <Text>No Share intent detected</Text>}
+      {hasShareIntent && <Text style={styles.gap}>Share intent value:</Text>}
+      {hasShareIntent && shareIntent.text && (
         <Text style={styles.gap}>{JSON.stringify(shareIntent)}</Text>
       )}
-      {shareIntent?.uri && (
-        <Image source={shareIntent} style={[styles.image, styles.gap]} />
-      )}
-      {!!shareIntent && <Button onPress={resetShareIntent} title="Reset" />}
+      {shareIntent?.files?.map((file) => (
+        <Image source={file} style={[styles.image, styles.gap]} />
+      ))}
+      {hasShareIntent && <Button onPress={resetShareIntent} title="Reset" />}
       <StatusBar style="auto" />
     </View>
   );

@@ -33,7 +33,7 @@ function renderIntentFilters(intentFilters) {
 }
 function renderIntentFilterData(data) {
     return (Array.isArray(data) ? data : [data]).filter(Boolean).map((datum) => ({
-        $: Object.entries(datum !== null && datum !== void 0 ? datum : {}).reduce((prev, [key, value]) => ({ ...prev, [`android:${key}`]: value }), {}),
+        $: Object.entries(datum ?? {}).reduce((prev, [key, value]) => ({ ...prev, [`android:${key}`]: value }), {}),
     }));
 }
 function renderIntentFilterCategory(category) {
@@ -45,30 +45,37 @@ function renderIntentFilterCategory(category) {
         },
     }));
 }
-function addIntentFilters(androidManifest, currentIntentFilters, filters) {
-    var _a;
+function addIntentFilters(androidManifest, currentIntentFilters, filters, multiFilters) {
     const mainActivity = config_plugins_1.AndroidConfig.Manifest.getMainActivityOrThrow(androidManifest);
-    // const renderedCurrentIntentFilters =
-    //   AndroidConfig.IntentFilters.default(currentIntentFilters);
     // DEFAULT VALUE (text and url)
     const newFilters = filters || ["text/*"];
-    const newIntentFilters = [{
-        action: "android.intent.action.SEND",
-        category: "android.intent.category.DEFAULT",
-        data: newFilters.map((filter) => (
-            {
+    console.debug(`[withAndroidIntentFilters] add android filters (${newFilters.join(" ")}) and multi-filters (${multiFilters ? multiFilters.join(" ") : ""})`);
+    const newIntentFilters = [
+        {
+            action: "android.intent.action.SEND",
+            category: "android.intent.category.DEFAULT",
+            data: newFilters.map((filter) => ({
                 mimeType: filter,
-            }
-        )),
-    }];
-    const renderedNewIntentFilters = renderIntentFilters(newIntentFilters);
+            })),
+        },
+    ];
+    const newMultiIntentFilters = multiFilters ? [
+        {
+            action: "android.intent.action.SEND_MULTIPLE",
+            category: "android.intent.category.DEFAULT",
+            data: multiFilters.map((filter) => ({
+                mimeType: filter,
+            })),
+        },
+    ] : [];
+    const renderedNewIntentFilters = renderIntentFilters([...newIntentFilters, ...newMultiIntentFilters]);
     // adds them properly to the manifest
-    mainActivity["intent-filter"] = (_a = mainActivity["intent-filter"]) === null || _a === void 0 ? void 0 : _a.concat(renderedNewIntentFilters);
+    mainActivity["intent-filter"] = mainActivity["intent-filter"]?.concat(renderedNewIntentFilters);
     return androidManifest;
 }
 const withAndroidIntentFilters = (config, parameters) => {
     return (0, config_plugins_1.withAndroidManifest)(config, (config) => {
-        config.modResults = addIntentFilters(config.modResults, config_plugins_1.AndroidConfig.IntentFilters.getIntentFilters(config), parameters === null || parameters === void 0 ? void 0 : parameters.androidIntentFilters);
+        config.modResults = addIntentFilters(config.modResults, config_plugins_1.AndroidConfig.IntentFilters.getIntentFilters(config), parameters?.androidIntentFilters, parameters?.androidMultiIntentFilters);
         return config;
     });
 };
