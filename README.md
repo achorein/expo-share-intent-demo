@@ -1,10 +1,12 @@
 # Expo Share Intent Demo
 
+> **⚠️ a single npm package is now available 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent). It simplify a lot project configuration by implementing an expo native module to unify the iOS and Android part**.
+
+**⚠️ DEPRECATED: please use new npm package 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent) (example with expo-router v3)**
+
 This project demonstrates a functional share intent in an Expo (React Native) project. It allows to use Expo's auto-configuration for the `react-native-receive-sharing-intent` package.
 
 This demo works with **Expo SDK 50**. Is compatible with **Android** and **iOS** and support URL, text, images, videos and files sharing.
-
-> 🚧⚠️ **WIP:** a single npm package is currently into development:  [expo-share-intent](https://github.com/achorein/expo-share-intent). It implements an expo native module to unify the iOS and Android part.
 
 More Demo :
 
@@ -12,8 +14,7 @@ More Demo :
 - Expo 47 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo47)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
 - Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49)
-- Expo 49 with expo-router [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
-
+- Expo 49 with expo-router v2 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router)
 
 ## Table of Contents
 
@@ -100,8 +101,8 @@ Simply choose content types you need :
 
 | Option                        | Values                                                                                                                                                |
 | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| androidIntentFilters          | **one file sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)                                |
-| androidMultiIntentFilters | **multiple files sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"audio/*`/ `"*/*"`<br/>_default value_: `[]` |
+| androidIntentFilters          | **one file sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"*/*"`<br/>_default value_: `["text/*"]` (text and url)           |
+| androidMultiIntentFilters     | **multiple files sharing** array of MIME types :`"text/*"` / `"image/*"` / `"video/*"` / `"audio/*`/ `"*/*"`<br/>_default value_: `[]`                |
 | androidMainActivityAttributes | _default value_: `{ "android:launchMode": "singleTask" }`                                                                                             |
 | androidExtraBuildProperties   | https://docs.expo.dev/versions/latest/sdk/build-properties/#pluginconfigtypeandroid<br/>example: `{ "targetSdkVersion": 34 }` , _default value_: `{}` |
 
