@@ -1,5 +1,7 @@
 # Expo Share Intent Demo
 
+> **⚠️ a single npm package is now available 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent). It simplify a lot project configuration by implementing an expo native module to unify the iOS and Android part**.
+
 This project demonstrates a functional share intent in an Expo (React Native) project. It allows to use Expo's auto-configuration for the `react-native-receive-sharing-intent` package.
 
 This demo works with **Expo SDK 47**. Is compatible with **Android** and **iOS** and support URL, text, images, videos and files sharing.
@@ -8,8 +10,8 @@ More Demo :
 
 - Expo 46 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo46) (compatible iOS 12.4)
 - Expo 48 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo48)
-- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (or with [expo-router](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router))
-- Expo 50 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo50)
+- Expo 49 [available here](https://github.com/achorein/expo-share-intent-demo/tree/expo49) (or with [expo-router v2](https://github.com/achorein/expo-share-intent-demo/tree/expo49-expo-router))
+- Expo 50 use new npm package 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent) (example with expo-router v3)
 
 ## Table of Contents
 
