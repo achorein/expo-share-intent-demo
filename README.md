@@ -1,6 +1,6 @@
 # Expo Share Intent Demo
 
-> **⚠️ a single npm package is now available 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent). It simplify a lot project configuration by implementing an expo native module to unify the iOS and Android part**.
+> **⚠️ This repo is deprecated ⚠️ a single npm package is now available 🚀 [expo-share-intent](https://github.com/achorein/expo-share-intent) for SDK 49 and 50. It simplify a lot project configuration by implementing an expo native module to unify the iOS and Android part**.
 
 This project demonstrates a functional share intent in an Expo (React Native) project. It allows to use Expo's auto-configuration for the `react-native-receive-sharing-intent` package.
 
